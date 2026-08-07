@@ -1,11 +1,11 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   ArrowRight,
   ArrowUpRight,
   Buildings,
   Calculator,
   Check,
-  FileArrowUp,
+  EnvelopeSimple,
   FileText,
   List,
   MapPin,
@@ -25,63 +25,59 @@ const navItems = [
   ["Для кого", "#audience"],
   ["Как работаю", "#process"],
   ["Обо мне", "#about"],
-];
-
-const audiences = [
-  {
-    title: "Девелоперы и управляющие компании",
-    text: "Торговые центры, бизнес-центры и склады. Контроль бюджета от расчёта до приёмки.",
-  },
-  {
-    title: "Подрядчики и субподрядчики",
-    text: "Тендерные сметы, сверка объёмов, расценок и требований конкретного заказчика.",
-  },
-  {
-    title: "Компании, работающие по 44-ФЗ",
-    text: "Документы для школ, больниц и социальных объектов, готовые к экспертизе и проверке.",
-  },
+  ["Стоимость", "#price"],
+  ["Контакты", "#contact"],
 ];
 
 const services = [
   {
-    className: "service-panel--main",
+    number: "01",
     icon: Calculator,
-    label: "Основная услуга",
     title: "Смета под ключ",
     text: "Локальные сметы, дефектные ведомости и коммерческие предложения в Гранд-Смете и Турбо-Сметчике.",
-    result: "Документ, который можно сразу отправлять заказчику.",
+    note: "от 40 000 ₽",
   },
   {
-    className: "service-panel--audit",
+    number: "02",
     icon: ShieldCheck,
-    label: "Проверка",
     title: "Аудит готовой сметы",
-    text: "Нахожу ошибки в объёмах, коэффициентах и нормативах до оплаты работ.",
-    result: "От 10 000 ₽",
+    text: "Проверка объёмов, расценок, коэффициентов и нормативов до согласования или оплаты работ.",
+    note: "от 10 000 ₽",
   },
   {
-    className: "service-panel--support",
+    number: "03",
     icon: FileText,
-    label: "Сопровождение",
-    title: "КС-2, КС-3, договоры и ЭДО",
-    text: "Контролирую документы и работу подрядчиков на всех этапах проекта.",
-    result: "Стоимость по задаче",
+    title: "КС-2, КС-3 и ЭДО",
+    text: "Сопровождение договоров, исполнительных документов и работы подрядчиков на всех этапах проекта.",
+    note: "по задаче",
   },
   {
-    className: "service-panel--expert",
+    number: "04",
     icon: Buildings,
-    label: "Экспертиза",
-    title: "Подготовка расчётов для суда",
-    text: "Собираю обоснованную позицию для арбитража и судебной экспертизы.",
-    result: "Договорная стоимость",
+    title: "Судебная экспертиза",
+    text: "Обоснованные расчёты и документы для арбитража, экспертизы и защиты позиции по стоимости работ.",
+    note: "по запросу",
   },
 ];
 
+const stats = [
+  ["> 16", "лет в сметном деле"],
+  ["2,5 млрд ₽", "стоимость проектов"],
+  ["10-15%", "экономии после аудита"],
+  ["1-2 дня", "согласование сметы"],
+];
+
+const audiences = [
+  ["Девелоперы и управляющие компании", "Торговые центры, бизнес-центры и склады. Контроль бюджета от расчёта до приёмки."],
+  ["Подрядчики и субподрядчики", "Тендерные расчёты и документы с учётом требований конкретного заказчика."],
+  ["Государственные заказчики", "Школы, больницы и социальные объекты. Работа по требованиям 44-ФЗ."],
+];
+
 const process = [
-  ["Получаю исходные данные", "Вы присылаете смету, ТЗ или коротко описываете задачу."],
+  ["Получаю исходные данные", "Смета, ТЗ, чертежи или короткое описание задачи."],
   ["Проверяю риски", "Сверяю объёмы, нормативы, коэффициенты и требования заказчика."],
   ["Собираю решение", "Фиксирую правки и выпускаю понятный документ для согласования."],
-  ["Сопровождаю результат", "Отвечаю на вопросы по приёмке, договорам и изменениям проекта."],
+  ["Защищаю результат", "Отвечаю на вопросы по приёмке, договорам и изменениям проекта."],
 ];
 
 const priceRows = [
@@ -90,25 +86,25 @@ const priceRows = [
   ["Судебная экспертиза", "по запросу"],
 ];
 
-function Logo() {
-  return (
-    <a className="logo" href="#top" aria-label="Ольга Потолицына, на главную">
-      <span className="logo-mark">ОП</span>
-      <span className="logo-copy">
-        <strong>Ольга Потолицына</strong>
-        <small>сметное сопровождение</small>
-      </span>
-    </a>
-  );
-}
-
 function App() {
+  const heroRef = useRef(null);
+  const [headerSolid, setHeaderSolid] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const [formState, setFormState] = useState("idle");
   const [form, setForm] = useState({ name: "", phone: "", message: "" });
 
   useEffect(() => {
-    const items = [...document.querySelectorAll("[data-reveal]")];
+    if (!heroRef.current) return undefined;
+    const observer = new IntersectionObserver(
+      ([entry]) => setHeaderSolid(!entry.isIntersecting),
+      { rootMargin: "-82px 0px 0px", threshold: 0 },
+    );
+    observer.observe(heroRef.current);
+    return () => observer.disconnect();
+  }, []);
+
+  useEffect(() => {
+    const elements = [...document.querySelectorAll("[data-reveal]")];
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
@@ -120,23 +116,23 @@ function App() {
       },
       { rootMargin: "0px 0px -8%", threshold: 0.08 },
     );
-
-    items.forEach((item) => {
-      const rect = item.getBoundingClientRect();
-      if (rect.top > window.innerHeight) item.classList.add("reveal-armed");
-      observer.observe(item);
-    });
-
+    elements.forEach((element) => observer.observe(element));
     return () => observer.disconnect();
   }, []);
 
   useEffect(() => {
-    const closeMenu = (event) => {
+    const closeOnEscape = (event) => {
       if (event.key === "Escape") setMenuOpen(false);
     };
-    document.addEventListener("keydown", closeMenu);
-    return () => document.removeEventListener("keydown", closeMenu);
-  }, []);
+    document.body.classList.toggle("menu-is-open", menuOpen);
+    document.addEventListener("keydown", closeOnEscape);
+    return () => {
+      document.body.classList.remove("menu-is-open");
+      document.removeEventListener("keydown", closeOnEscape);
+    };
+  }, [menuOpen]);
+
+  const closeMenu = () => setMenuOpen(false);
 
   const handleFormChange = (event) => {
     setForm((current) => ({ ...current, [event.target.name]: event.target.value }));
@@ -164,108 +160,114 @@ function App() {
 
   return (
     <div className="site-shell" id="top">
-      <header className="site-header">
-        <div className="container header-inner">
-          <Logo />
-          <nav className={`main-nav${menuOpen ? " main-nav--open" : ""}`} aria-label="Основная навигация">
-            {navItems.map(([label, href]) => (
-              <a key={href} href={href} onClick={() => setMenuOpen(false)}>
-                {label}
-              </a>
-            ))}
-          </nav>
-          <div className="header-actions">
-            <a className="header-phone" href={`tel:+${phoneDigits}`}>{phoneDisplay}</a>
-            <a className="button button--compact" href="#contact">Проверить смету</a>
-            <button
-              className="menu-toggle"
-              type="button"
-              onClick={() => setMenuOpen((current) => !current)}
-              aria-label={menuOpen ? "Закрыть меню" : "Открыть меню"}
-              aria-expanded={menuOpen}
-            >
-              {menuOpen ? <X size={23} /> : <List size={23} />}
-            </button>
-          </div>
+      <header className={`site-header${headerSolid || menuOpen ? " site-header--solid" : ""}`}>
+        <div className="header-grid">
+          <a className="header-descriptor" href="#top" aria-label="Ольга Потолицына, на главную">
+            <span className="monogram" aria-hidden="true"><span>О</span><span>П</span></span>
+            <span>Сметное сопровождение<br />строительных проектов</span>
+          </a>
+          <a className="header-name" href="#top">Ольга Потолицына</a>
+          <button
+            className="menu-toggle"
+            type="button"
+            aria-label={menuOpen ? "Закрыть меню" : "Открыть меню"}
+            aria-expanded={menuOpen}
+            aria-controls="site-menu"
+            onClick={() => setMenuOpen((current) => !current)}
+          >
+            {menuOpen ? <X size={25} /> : <List size={27} />}
+          </button>
         </div>
       </header>
 
+      <aside className={`site-menu${menuOpen ? " site-menu--open" : ""}`} id="site-menu" aria-hidden={!menuOpen}>
+        <div className="menu-layout">
+          <nav className="menu-nav" aria-label="Основная навигация">
+            {navItems.map(([label, href], index) => (
+              <a href={href} key={href} onClick={closeMenu} tabIndex={menuOpen ? 0 : -1}>
+                <span>{String(index + 1).padStart(2, "0")}</span>{label}
+              </a>
+            ))}
+          </nav>
+          <div className="menu-contacts">
+            <p>Обсудить задачу</p>
+            <a href={`tel:+${phoneDigits}`}>{phoneDisplay}</a>
+            <a href={`https://t.me/${telegramHandle}`} target="_blank" rel="noreferrer">Telegram</a>
+          </div>
+        </div>
+      </aside>
+
       <main>
-        <section className="hero" aria-labelledby="hero-title">
-          <div className="container hero-grid">
-            <div className="hero-copy">
-              <p className="hero-kicker">Инженер-сметчик / 16 лет практики</p>
-              <h1 id="hero-title"><span>Смета выдержит</span>{" "}<span>проверку.</span></h1>
-              <p className="hero-lede">Проверяю цифры, защищаю бюджет и готовлю документы для заказчика, тендера или суда.</p>
-              <div className="hero-actions">
-                <a className="button" href="#contact">Проверить смету <ArrowRight size={19} weight="bold" /></a>
-                <a className="text-link" href="#services">Что можно поручить <ArrowUpRight size={17} weight="bold" /></a>
+        <section className="hero" ref={heroRef} aria-labelledby="hero-title">
+          <img
+            className="hero-image"
+            src="/images/hero-office.jpg"
+            alt="Современный строительный объект и проектная документация"
+            width="1672"
+            height="936"
+            fetchPriority="high"
+          />
+          <div className="hero-shade" aria-hidden="true" />
+          <div className="hero-content">
+            <p className="hero-kicker">Инженер-сметчик / частная практика</p>
+            <h1 id="hero-title">
+              <span>точные и защищённые</span>
+              <span>строительные сметы</span>
+            </h1>
+            <div className="hero-bottom">
+              <div className="hero-action">
+                <p>Расчёт, проверка и сопровождение</p>
+                <a className="button button--light" href="#contact">Проверить смету <ArrowRight size={17} /></a>
+              </div>
+              <div className="hero-stat">
+                <strong>&gt; 16</strong>
+                <span>лет профессиональной практики</span>
               </div>
             </div>
-            <figure className="hero-media">
-              <img
-                src="/images/hero-technical-v2.jpg"
-                alt="Проверка строительной сметы и проектной документации"
-                width="1600"
-                height="933"
-                fetchPriority="high"
-              />
-            </figure>
+          </div>
+        </section>
+
+        <section className="manifesto" aria-labelledby="manifesto-title">
+          <div className="container" data-reveal>
+            <h2 id="manifesto-title">
+              Подготавливаю сметы, которые проходят <span>согласование</span>, <span>экспертизу</span> и <span>проверку заказчика</span>.
+            </h2>
           </div>
         </section>
 
         <section className="proof" aria-label="Опыт и результаты">
-          <div className="container proof-grid">
-            <div className="proof-intro">
-              <p>Опыт с федеральными сетями и государственными заказчиками</p>
-              <strong>Магнит, Пятерочка, Чижик</strong>
+          <div className="container">
+            <div className="proof-heading" data-reveal>
+              <p>Результат в цифрах</p>
+              <p>Опыт работы с федеральными сетями и государственными заказчиками</p>
             </div>
-            <div className="proof-stat proof-stat--large"><strong>2,5 млрд ₽</strong><span>общая стоимость проектов</span></div>
-            <div className="proof-stat"><strong>10-15%</strong><span>экономии после аудита</span></div>
-            <div className="proof-stat"><strong>1-2 дня</strong><span>на согласование сметы</span></div>
-          </div>
-        </section>
-
-        <section className="section audience" id="audience" aria-labelledby="audience-title">
-          <div className="container audience-layout">
-            <div className="section-intro" data-reveal>
-              <h2 id="audience-title">Когда ошибка в смете стоит дорого</h2>
-              <p>Учитываю не только объект, но и правила конкретного заказчика, этап проекта и способ будущей проверки.</p>
-            </div>
-            <div className="audience-list" data-reveal>
-              {audiences.map((item) => (
-                <article className="audience-item" key={item.title}>
-                  <ArrowUpRight size={22} weight="bold" />
-                  <div>
-                    <h3>{item.title}</h3>
-                    <p>{item.text}</p>
-                  </div>
-                </article>
+            <div className="proof-grid" data-reveal>
+              {stats.map(([value, label]) => (
+                <div className="proof-item" key={label}>
+                  <strong>{value}</strong>
+                  <span>{label}</span>
+                </div>
               ))}
             </div>
+            <p className="client-line" data-reveal>Магнит <span>/</span> Пятерочка <span>/</span> Чижик <span>/</span> коммерческая недвижимость <span>/</span> социальные объекты</p>
           </div>
         </section>
 
         <section className="section services" id="services" aria-labelledby="services-title">
           <div className="container">
-            <div className="section-intro section-intro--services" data-reveal>
-              <h2 id="services-title">Считаю. Проверяю. Защищаю.</h2>
-              <p>Подключаюсь на нужном этапе и довожу задачу до документа, который удобно согласовывать.</p>
+            <div className="section-heading" data-reveal>
+              <p className="section-label">Что можно поручить</p>
+              <h2 id="services-title">Считаю. Проверяю.<br />Защищаю результат.</h2>
             </div>
             <div className="services-grid" data-reveal>
               {services.map((service) => {
                 const Icon = service.icon;
                 return (
-                  <article className={`service-panel ${service.className}`} key={service.title}>
-                    <div className="service-topline">
-                      <span>{service.label}</span>
-                      <Icon size={25} weight="regular" />
-                    </div>
-                    <div className="service-body">
-                      <h3>{service.title}</h3>
-                      <p>{service.text}</p>
-                    </div>
-                    <div className="service-result"><Check size={17} weight="bold" /><span>{service.result}</span></div>
+                  <article className="service-item" key={service.title}>
+                    <div className="service-meta"><span>{service.number}</span><Icon size={28} weight="light" /></div>
+                    <h3>{service.title}</h3>
+                    <p>{service.text}</p>
+                    <span className="service-note">{service.note}</span>
                   </article>
                 );
               })}
@@ -273,34 +275,70 @@ function App() {
           </div>
         </section>
 
-        <section className="section expertise" id="about" aria-labelledby="about-title">
-          <div className="container expertise-grid">
-            <figure className="expertise-media" data-reveal>
-              <img src="/images/blueprint-detail.png" alt="Чертёж и исходные данные для сметного расчёта" width="1536" height="1024" loading="lazy" />
-            </figure>
-            <div className="expertise-copy" data-reveal>
-              <h2 id="about-title">За результат отвечаю лично</h2>
-              <p className="expertise-lede">Ольга Потолицына, инженер-сметчик с 16-летним стажем. Коммерческие объекты, социальная инфраструктура и госзаказ.</p>
-              <div className="expertise-facts">
-                <p><span>Образование</span><strong>Инженер ПГС</strong></p>
-                <p><span>Практика</span><strong>Гранд-Смета, Турбо-Сметчик, 44-ФЗ</strong></p>
-                <p><span>Опыт</span><strong>Судебные экспертизы и проверки заказчиков</strong></p>
-              </div>
-              <p className="expertise-note">Участвовала в строительстве Академического театра драмы им. В. Савина и Республиканского лыжного комплекса им. Р. Сметаниной.</p>
-              <a className="text-link" href={`mailto:${email}`}>Задать вопрос <ArrowUpRight size={17} weight="bold" /></a>
+        <section className="section projects" id="audience" aria-labelledby="projects-title">
+          <div className="container">
+            <div className="projects-heading" data-reveal>
+              <p className="section-label">Проекты и задачи</p>
+              <h2 id="projects-title">Подключаюсь там, где цена ошибки особенно высока</h2>
+            </div>
+            <div className="projects-grid">
+              <figure className="project project--portrait" data-reveal>
+                <img src="/images/expert-review.jpg" alt="Специалист проверяет строительные чертежи" width="1194" height="1536" loading="lazy" />
+                <figcaption>
+                  <span>01 / Коммерческие объекты</span>
+                  <h3>Расчёт и контроль бюджета до приёмки работ</h3>
+                </figcaption>
+              </figure>
+              <figure className="project project--detail" data-reveal>
+                <img src="/images/estimate-detail.jpg" alt="Проверка сметы по рабочим чертежам" width="1194" height="1536" loading="lazy" />
+                <figcaption>
+                  <span>02 / Подрядчики</span>
+                  <h3>Тендерные сметы и сверка объёмов</h3>
+                </figcaption>
+              </figure>
+            </div>
+            <div className="audience-list" data-reveal>
+              {audiences.map(([title, text], index) => (
+                <article className="audience-row" key={title}>
+                  <span>{String(index + 1).padStart(2, "0")}</span>
+                  <h3>{title}</h3>
+                  <p>{text}</p>
+                  <ArrowUpRight size={22} weight="light" />
+                </article>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        <section className="section about" id="about" aria-labelledby="about-title">
+          <div className="container about-grid">
+            <div className="about-lead" data-reveal>
+              <p className="section-label">О специалисте</p>
+              <h2 id="about-title">Ольга<br />Потолицына</h2>
+            </div>
+            <div className="about-copy" data-reveal>
+              <p className="about-intro">Инженер-сметчик с 16-летним опытом в строительстве, коммерческой недвижимости и государственных проектах.</p>
+              <p>Не просто считаю стоимость. Проверяю логику проекта, вижу риски в документах и объясняю цифры так, чтобы их можно было уверенно защищать перед заказчиком, экспертизой или судом.</p>
+              <ul>
+                <li><Check size={18} /> работа по 44-ФЗ и требованиям заказчика</li>
+                <li><Check size={18} /> Гранд-Смета и Турбо-Сметчик</li>
+                <li><Check size={18} /> сметы, КС-2, КС-3, договоры и ЭДО</li>
+              </ul>
+              <a className="text-link" href="#contact">Обсудить проект <ArrowUpRight size={18} /></a>
             </div>
           </div>
         </section>
 
         <section className="section process" id="process" aria-labelledby="process-title">
           <div className="container">
-            <div className="section-intro" data-reveal>
-              <h2 id="process-title">Понятный процесс без лишних согласований</h2>
-              <p>Первый шаг простой: пришлите готовую смету, ТЗ или коротко опишите ситуацию.</p>
+            <div className="process-heading" data-reveal>
+              <p className="section-label">Как строится работа</p>
+              <h2 id="process-title">От исходных данных<br />до защищённого результата</h2>
             </div>
-            <div className="process-track" data-reveal>
-              {process.map(([title, text]) => (
-                <article className="process-item" key={title}>
+            <div className="process-list" data-reveal>
+              {process.map(([title, text], index) => (
+                <article className="process-row" key={title}>
+                  <span>{String(index + 1).padStart(2, "0")}</span>
                   <h3>{title}</h3>
                   <p>{text}</p>
                 </article>
@@ -309,74 +347,63 @@ function App() {
           </div>
         </section>
 
-        <section className="section price" id="price" aria-labelledby="price-title">
-          <div className="container price-layout">
-            <div className="price-copy" data-reveal>
-              <h2 id="price-title">Цена известна до начала работы</h2>
-              <p>Оцениваю объём, количество разделов и срок. После этого фиксирую стоимость без скрытых доплат.</p>
-              <a className="button button--secondary" href="#contact">Получить оценку <ArrowRight size={19} weight="bold" /></a>
+        <section className="section pricing" id="price" aria-labelledby="price-title">
+          <div className="container pricing-grid">
+            <div className="pricing-copy" data-reveal>
+              <p className="section-label">Стоимость</p>
+              <h2 id="price-title">Сначала оцениваю задачу. Потом называю точную цену.</h2>
+              <p>Пришлите документы или кратко опишите проект. Я посмотрю объём и предложу формат работы.</p>
             </div>
             <div className="price-list" data-reveal>
               {priceRows.map(([label, value]) => (
-                <div className="price-row" key={label}>
-                  <span>{label}</span>
-                  <strong>{value}</strong>
-                </div>
+                <div className="price-row" key={label}><span>{label}</span><strong>{value}</strong></div>
               ))}
-              <p>Экспресс-оценка сметы бесплатна.</p>
+              <a className="button button--dark" href="#contact">Получить оценку <ArrowRight size={17} /></a>
             </div>
           </div>
         </section>
 
-        <section className="section contact" id="contact" aria-labelledby="contact-title">
+        <section className="contact" id="contact" aria-labelledby="contact-title">
           <div className="container contact-grid">
             <div className="contact-copy" data-reveal>
-              <h2 id="contact-title">Пришлите смету. Я скажу, что проверить в первую очередь.</h2>
-              <p>Отвечу по задаче, назову срок и стоимость. Можно сразу написать в Telegram или позвонить.</p>
+              <p className="section-label">Начать работу</p>
+              <h2 id="contact-title">Расскажите, какую смету нужно посчитать или проверить</h2>
+              <p>Отвечу, какие документы понадобятся, сколько займёт работа и каким будет результат.</p>
               <div className="contact-links">
-                <a href={`tel:+${phoneDigits}`}><Phone size={20} weight="bold" /><span>{phoneDisplay}</span></a>
-                <a href={`https://t.me/${telegramHandle}`} target="_blank" rel="noreferrer"><PaperPlaneTilt size={20} weight="bold" /><span>@{telegramHandle}</span></a>
-                <a href={`mailto:${email}`}><FileText size={20} weight="bold" /><span>{email}</span></a>
+                <a href={`tel:+${phoneDigits}`}><Phone size={20} />{phoneDisplay}</a>
+                <a href={`mailto:${email}`}><EnvelopeSimple size={20} />{email}</a>
+                <a href={`https://t.me/${telegramHandle}`} target="_blank" rel="noreferrer"><PaperPlaneTilt size={20} />@{telegramHandle}</a>
+                <span><MapPin size={20} />Россия / работаю удалённо</span>
               </div>
             </div>
-
             <form className="contact-form" onSubmit={handleSubmit} data-reveal>
-              <div className="form-heading">
-                <h3>Экспресс-оценка</h3>
-                <FileArrowUp size={25} />
-              </div>
               <label>
-                <span>Имя</span>
-                <input name="name" value={form.name} onChange={handleFormChange} placeholder="Как к вам обращаться" autoComplete="name" required />
+                <span>Ваше имя</span>
+                <input name="name" value={form.name} onChange={handleFormChange} placeholder="Как к вам обращаться" required />
               </label>
               <label>
-                <span>Телефон</span>
-                <input name="phone" type="tel" value={form.phone} onChange={handleFormChange} placeholder="+7 900 000 00 00" autoComplete="tel" required />
+                <span>Телефон или Telegram</span>
+                <input name="phone" value={form.phone} onChange={handleFormChange} placeholder="+7 999 000-00-00" required />
               </label>
               <label>
-                <span>Что нужно проверить?</span>
-                <textarea name="message" value={form.message} onChange={handleFormChange} placeholder="Коротко опишите проект или прикрепите файл в Telegram" rows="4" required />
+                <span>Задача</span>
+                <textarea name="message" value={form.message} onChange={handleFormChange} placeholder="Что нужно посчитать или проверить" rows="4" />
               </label>
-              <button className="button form-submit" type="submit">Отправить в Telegram <PaperPlaneTilt size={19} weight="bold" /></button>
-              <p className="form-hint">Telegram откроется с уже подготовленным сообщением.</p>
-              {formState === "sent" && <p className="form-success" role="status">Сообщение подготовлено. Если Telegram не открылся, напишите напрямую: @{telegramHandle}</p>}
+              <button className="button button--dark form-submit" type="submit">
+                {formState === "sent" ? "Telegram открыт" : "Отправить в Telegram"}
+                <ArrowUpRight size={18} />
+              </button>
+              <small>Нажимая кнопку, вы соглашаетесь на обработку данных.</small>
             </form>
           </div>
         </section>
       </main>
 
       <footer className="site-footer">
-        <div className="container footer-main">
-          <Logo />
-          <p>Сметное сопровождение коммерческих и государственных строительных проектов по всей России.</p>
-          <div className="footer-contact">
-            <a href={`tel:+${phoneDigits}`}>{phoneDisplay}</a>
-            <span><MapPin size={16} /> Краснодар</span>
-          </div>
-        </div>
-        <div className="container footer-bottom">
-          <span>© {new Date().getFullYear()} Ольга Потолицына</span>
-          <span>Инженер-сметчик</span>
+        <div className="container footer-grid">
+          <span>Ольга Потолицына</span>
+          <span>Инженер-сметчик / 2026</span>
+          <a href="#top">Наверх <ArrowUpRight size={16} /></a>
         </div>
       </footer>
     </div>
