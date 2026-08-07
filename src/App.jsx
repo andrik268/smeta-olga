@@ -1,16 +1,17 @@
 import { useEffect, useState } from "react";
 import {
-  ArrowDown,
   ArrowRight,
+  ArrowUpRight,
+  Buildings,
+  Calculator,
   Check,
-  CheckCircle,
   FileArrowUp,
   FileText,
   List,
-  LockKey,
   MapPin,
   PaperPlaneTilt,
   Phone,
+  ShieldCheck,
   X,
 } from "@phosphor-icons/react";
 
@@ -26,82 +27,78 @@ const navItems = [
   ["Обо мне", "#about"],
 ];
 
-const audience = [
+const audiences = [
   {
-    number: "01",
-    title: "Девелоперы и УК",
-    text: "ТЦ, БЦ и складские комплексы. Помогаю держать бюджет под контролем на каждом этапе.",
+    title: "Девелоперы и управляющие компании",
+    text: "Торговые центры, бизнес-центры и склады. Контроль бюджета от расчёта до приёмки.",
   },
   {
-    number: "02",
-    title: "Субподрядчики",
-    text: "Сметы для тендеров сетей и государства. Сверяю объёмы, расценки и требования заказчика.",
+    title: "Подрядчики и субподрядчики",
+    text: "Тендерные сметы, сверка объёмов, расценок и требований конкретного заказчика.",
   },
   {
-    number: "03",
-    title: "Подрядчики по 44-ФЗ",
-    text: "Документы для школ, больниц и социальных объектов, которые готовы к экспертизе и проверке.",
+    title: "Компании, работающие по 44-ФЗ",
+    text: "Документы для школ, больниц и социальных объектов, готовые к экспертизе и проверке.",
   },
 ];
 
 const services = [
   {
-    index: "Составление",
+    className: "service-panel--main",
+    icon: Calculator,
+    label: "Основная услуга",
     title: "Смета под ключ",
     text: "Локальные сметы, дефектные ведомости и коммерческие предложения в Гранд-Смете и Турбо-Сметчике.",
-    result: "На выходе: документ для согласования заказчиком с первого раза.",
+    result: "Документ, который можно сразу отправлять заказчику.",
   },
   {
-    index: "Аудит",
-    title: "Проверка готовой сметы",
-    text: "Нахожу завышения, ошибки в коэффициентах и несоответствия нормативам до того, как они станут переплатой.",
-    result: "На выходе: ясный список правок и экономия до 10-15% бюджета.",
+    className: "service-panel--audit",
+    icon: ShieldCheck,
+    label: "Проверка",
+    title: "Аудит готовой сметы",
+    text: "Нахожу ошибки в объёмах, коэффициентах и нормативах до оплаты работ.",
+    result: "От 10 000 ₽",
   },
   {
-    index: "Сопровождение",
-    title: "Договоры и приёмка",
-    text: "Контроль КС-2, КС-3, ЭДО и работы подрядчиков на всех этапах проекта.",
-    result: "На выходе: спокойная приёмка без лишних объёмов и срывов сроков.",
+    className: "service-panel--support",
+    icon: FileText,
+    label: "Сопровождение",
+    title: "КС-2, КС-3, договоры и ЭДО",
+    text: "Контролирую документы и работу подрядчиков на всех этапах проекта.",
+    result: "Стоимость по задаче",
   },
   {
-    index: "Экспертиза",
-    title: "Подготовка к суду",
-    text: "Собираю документы и расчёты для арбитража. Есть опыт защиты смет в судебных экспертизах.",
-    result: "На выходе: обоснованная позиция, которую можно защищать документами.",
+    className: "service-panel--expert",
+    icon: Buildings,
+    label: "Экспертиза",
+    title: "Подготовка расчётов для суда",
+    text: "Собираю обоснованную позицию для арбитража и судебной экспертизы.",
+    result: "Договорная стоимость",
   },
 ];
 
 const process = [
-  ["Слушаю задачу", "Вы присылаете смету, ТЗ или исходные данные. Я уточняю объём и срок."],
-  ["Нахожу риски", "Проверяю нормативы, объёмы, коэффициенты и требования конкретного заказчика."],
-  ["Собираю решение", "Фиксирую результат в понятном документе, который удобно согласовывать и защищать."],
-  ["Остаюсь на связи", "Подключаюсь к вопросам по договорам, приёмке и изменениям проекта."],
+  ["Получаю исходные данные", "Вы присылаете смету, ТЗ или коротко описываете задачу."],
+  ["Проверяю риски", "Сверяю объёмы, нормативы, коэффициенты и требования заказчика."],
+  ["Собираю решение", "Фиксирую правки и выпускаю понятный документ для согласования."],
+  ["Сопровождаю результат", "Отвечаю на вопросы по приёмке, договорам и изменениям проекта."],
 ];
 
 const priceRows = [
+  ["Проверка готовой сметы", "от 10 000 ₽"],
   ["Смета под ключ", "от 40 000 ₽"],
-  ["Проверка сметы", "от 10 000 ₽"],
-  ["Судебная экспертиза", "договорная"],
+  ["Судебная экспертиза", "по запросу"],
 ];
 
 function Logo() {
   return (
     <a className="logo" href="#top" aria-label="Ольга Потолицына, на главную">
-      <span className="logo-mark">О</span>
-      <span className="logo-type">
-        <strong>Потолиц<span>ы</span>на</strong>
-        <small>инженер-сметчик</small>
+      <span className="logo-mark">ОП</span>
+      <span className="logo-copy">
+        <strong>Ольга Потолицына</strong>
+        <small>сметное сопровождение</small>
       </span>
     </a>
-  );
-}
-
-function SectionHeading({ children, text, id, light = false }) {
-  return (
-    <div className={`section-heading${light ? " section-heading--light" : ""}`}>
-      <h2 id={id}>{children}</h2>
-      {text && <p>{text}</p>}
-    </div>
   );
 }
 
@@ -111,7 +108,7 @@ function App() {
   const [form, setForm] = useState({ name: "", phone: "", message: "" });
 
   useEffect(() => {
-    const items = document.querySelectorAll("[data-reveal]");
+    const items = [...document.querySelectorAll("[data-reveal]")];
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
@@ -121,11 +118,24 @@ function App() {
           }
         });
       },
-      { threshold: 0.12 },
+      { rootMargin: "0px 0px -8%", threshold: 0.08 },
     );
 
-    items.forEach((item) => observer.observe(item));
+    items.forEach((item) => {
+      const rect = item.getBoundingClientRect();
+      if (rect.top > window.innerHeight) item.classList.add("reveal-armed");
+      observer.observe(item);
+    });
+
     return () => observer.disconnect();
+  }, []);
+
+  useEffect(() => {
+    const closeMenu = (event) => {
+      if (event.key === "Escape") setMenuOpen(false);
+    };
+    document.addEventListener("keydown", closeMenu);
+    return () => document.removeEventListener("keydown", closeMenu);
   }, []);
 
   const handleFormChange = (event) => {
@@ -143,7 +153,12 @@ function App() {
     ]
       .filter(Boolean)
       .join("\n");
-    window.open(`https://t.me/${telegramHandle}?text=${encodeURIComponent(message)}`, "_blank", "noopener,noreferrer");
+
+    window.open(
+      `https://t.me/${telegramHandle}?text=${encodeURIComponent(message)}`,
+      "_blank",
+      "noopener,noreferrer",
+    );
     setFormState("sent");
   };
 
@@ -154,158 +169,196 @@ function App() {
           <Logo />
           <nav className={`main-nav${menuOpen ? " main-nav--open" : ""}`} aria-label="Основная навигация">
             {navItems.map(([label, href]) => (
-              <a key={href} href={href} onClick={() => setMenuOpen(false)}>{label}</a>
+              <a key={href} href={href} onClick={() => setMenuOpen(false)}>
+                {label}
+              </a>
             ))}
-            <a className="nav-phone" href={`tel:+${phoneDigits}`}><Phone size={16} weight="bold" />{phoneDisplay}</a>
           </nav>
           <div className="header-actions">
-            <a className="button button--dark button--small" href="#contact">Проверить смету</a>
-            <button className="menu-toggle" type="button" onClick={() => setMenuOpen((current) => !current)} aria-label={menuOpen ? "Закрыть меню" : "Открыть меню"} aria-expanded={menuOpen}>
-              {menuOpen ? <X size={24} /> : <List size={24} />}
+            <a className="header-phone" href={`tel:+${phoneDigits}`}>{phoneDisplay}</a>
+            <a className="button button--compact" href="#contact">Проверить смету</a>
+            <button
+              className="menu-toggle"
+              type="button"
+              onClick={() => setMenuOpen((current) => !current)}
+              aria-label={menuOpen ? "Закрыть меню" : "Открыть меню"}
+              aria-expanded={menuOpen}
+            >
+              {menuOpen ? <X size={23} /> : <List size={23} />}
             </button>
           </div>
         </div>
       </header>
 
       <main>
-        <section className="hero section-frame" aria-labelledby="hero-title">
+        <section className="hero" aria-labelledby="hero-title">
           <div className="container hero-grid">
-            <div className="hero-copy" data-reveal>
-              <p className="eyebrow">Инженер-сметчик / Краснодар и дистанционно</p>
-              <h1 id="hero-title">Сметы, которые проходят<br />любые проверки.</h1>
-              <p className="hero-lede">16 лет опыта. Работа с Магнитом, Пятерочкой, Чижиком и госзаказчиками. Закрыто проектов на 2,5 млрд рублей.</p>
+            <div className="hero-copy">
+              <p className="hero-kicker">Инженер-сметчик / 16 лет практики</p>
+              <h1 id="hero-title"><span>Смета выдержит</span>{" "}<span>проверку.</span></h1>
+              <p className="hero-lede">Проверяю цифры, защищаю бюджет и готовлю документы для заказчика, тендера или суда.</p>
               <div className="hero-actions">
-                <a className="button button--accent" href="#contact">Проверить смету за 15 минут <ArrowRight size={18} weight="bold" /></a>
-                <a className="text-link" href="#services">Посмотреть услуги <ArrowDown size={16} /></a>
-              </div>
-              <div className="hero-proof" aria-label="Ключевые показатели">
-                <div><strong>16</strong><span>лет в сметах</span></div>
-                <div><strong>2,5 млрд</strong><span>рублей в проектах</span></div>
-                <div><strong>10-15%</strong><span>экономии бюджета</span></div>
+                <a className="button" href="#contact">Проверить смету <ArrowRight size={19} weight="bold" /></a>
+                <a className="text-link" href="#services">Что можно поручить <ArrowUpRight size={17} weight="bold" /></a>
               </div>
             </div>
-            <div className="hero-visual" data-reveal>
-              <div className="hero-image-wrap">
-                <img src="/images/hero-estimator.png" alt="Инженер-сметчик за проверкой проектной документации" width="1600" height="900" />
-                <div className="hero-stamp"><span>КС-2</span><span>КС-3</span><span>44-ФЗ</span></div>
-              </div>
-              <p className="image-note">Точность в документах. Спокойствие в проекте.</p>
-            </div>
+            <figure className="hero-media">
+              <img
+                src="/images/hero-technical-v2.jpg"
+                alt="Проверка строительной сметы и проектной документации"
+                width="1600"
+                height="933"
+                fetchPriority="high"
+              />
+            </figure>
           </div>
         </section>
 
-        <section className="proof-strip">
-          <div className="container proof-strip-inner">
-            <p>Проверяю смету до того, как она станет проблемой</p>
-            <a className="inline-arrow" href="#contact">Отправить файл на оценку <ArrowRight size={17} /></a>
+        <section className="proof" aria-label="Опыт и результаты">
+          <div className="container proof-grid">
+            <div className="proof-intro">
+              <p>Опыт с федеральными сетями и государственными заказчиками</p>
+              <strong>Магнит, Пятерочка, Чижик</strong>
+            </div>
+            <div className="proof-stat proof-stat--large"><strong>2,5 млрд ₽</strong><span>общая стоимость проектов</span></div>
+            <div className="proof-stat"><strong>10-15%</strong><span>экономии после аудита</span></div>
+            <div className="proof-stat"><strong>1-2 дня</strong><span>на согласование сметы</span></div>
           </div>
         </section>
 
-        <section className="section section--audience" id="audience" aria-labelledby="audience-title">
-          <div className="container">
-            <SectionHeading id="audience-title" text="Требования у каждого проекта свои. Я учитываю не только объект, но и конкретного заказчика, его нормы и способ проверки.">Работаю там, где ошибка стоит дорого.</SectionHeading>
-            <div className="audience-grid" data-reveal>
-              {audience.map((item) => (
-                <article className="audience-item" key={item.number}>
-                  <span className="item-number">{item.number}</span>
-                  <h3>{item.title}</h3>
-                  <p>{item.text}</p>
-                  <ArrowRight className="item-arrow" size={20} weight="bold" />
+        <section className="section audience" id="audience" aria-labelledby="audience-title">
+          <div className="container audience-layout">
+            <div className="section-intro" data-reveal>
+              <h2 id="audience-title">Когда ошибка в смете стоит дорого</h2>
+              <p>Учитываю не только объект, но и правила конкретного заказчика, этап проекта и способ будущей проверки.</p>
+            </div>
+            <div className="audience-list" data-reveal>
+              {audiences.map((item) => (
+                <article className="audience-item" key={item.title}>
+                  <ArrowUpRight size={22} weight="bold" />
+                  <div>
+                    <h3>{item.title}</h3>
+                    <p>{item.text}</p>
+                  </div>
                 </article>
               ))}
             </div>
           </div>
         </section>
 
-        <section className="section section--services" id="services" aria-labelledby="services-title">
+        <section className="section services" id="services" aria-labelledby="services-title">
           <div className="container">
-            <SectionHeading id="services-title" text="От первого расчёта до приёмки. Подключаюсь на нужном этапе и держу в фокусе конечный результат.">Что можно поручить мне</SectionHeading>
-            <div className="services-list" data-reveal>
-              {services.map((service) => (
-                <article className="service-row" key={service.title}>
-                  <span className="service-index">{service.index}</span>
-                  <div className="service-main"><h3>{service.title}</h3><p>{service.text}</p></div>
-                  <div className="service-result"><Check size={17} weight="bold" /><span>{service.result}</span></div>
-                  <ArrowRight className="service-arrow" size={22} weight="bold" />
+            <div className="section-intro section-intro--services" data-reveal>
+              <h2 id="services-title">Считаю. Проверяю. Защищаю.</h2>
+              <p>Подключаюсь на нужном этапе и довожу задачу до документа, который удобно согласовывать.</p>
+            </div>
+            <div className="services-grid" data-reveal>
+              {services.map((service) => {
+                const Icon = service.icon;
+                return (
+                  <article className={`service-panel ${service.className}`} key={service.title}>
+                    <div className="service-topline">
+                      <span>{service.label}</span>
+                      <Icon size={25} weight="regular" />
+                    </div>
+                    <div className="service-body">
+                      <h3>{service.title}</h3>
+                      <p>{service.text}</p>
+                    </div>
+                    <div className="service-result"><Check size={17} weight="bold" /><span>{service.result}</span></div>
+                  </article>
+                );
+              })}
+            </div>
+          </div>
+        </section>
+
+        <section className="section expertise" id="about" aria-labelledby="about-title">
+          <div className="container expertise-grid">
+            <figure className="expertise-media" data-reveal>
+              <img src="/images/blueprint-detail.png" alt="Чертёж и исходные данные для сметного расчёта" width="1536" height="1024" loading="lazy" />
+            </figure>
+            <div className="expertise-copy" data-reveal>
+              <h2 id="about-title">За результат отвечаю лично</h2>
+              <p className="expertise-lede">Ольга Потолицына, инженер-сметчик с 16-летним стажем. Коммерческие объекты, социальная инфраструктура и госзаказ.</p>
+              <div className="expertise-facts">
+                <p><span>Образование</span><strong>Инженер ПГС</strong></p>
+                <p><span>Практика</span><strong>Гранд-Смета, Турбо-Сметчик, 44-ФЗ</strong></p>
+                <p><span>Опыт</span><strong>Судебные экспертизы и проверки заказчиков</strong></p>
+              </div>
+              <p className="expertise-note">Участвовала в строительстве Академического театра драмы им. В. Савина и Республиканского лыжного комплекса им. Р. Сметаниной.</p>
+              <a className="text-link" href={`mailto:${email}`}>Задать вопрос <ArrowUpRight size={17} weight="bold" /></a>
+            </div>
+          </div>
+        </section>
+
+        <section className="section process" id="process" aria-labelledby="process-title">
+          <div className="container">
+            <div className="section-intro" data-reveal>
+              <h2 id="process-title">Понятный процесс без лишних согласований</h2>
+              <p>Первый шаг простой: пришлите готовую смету, ТЗ или коротко опишите ситуацию.</p>
+            </div>
+            <div className="process-track" data-reveal>
+              {process.map(([title, text]) => (
+                <article className="process-item" key={title}>
+                  <h3>{title}</h3>
+                  <p>{text}</p>
                 </article>
               ))}
             </div>
           </div>
         </section>
 
-        <section className="section section--evidence" id="about" aria-labelledby="about-title">
-          <div className="container evidence-grid">
-            <div className="evidence-image" data-reveal>
-              <img src="/images/estimate-desk.png" alt="Рабочие материалы для проверки строительной сметы" width="1120" height="1400" loading="lazy" />
-              <div className="evidence-caption"><span>Ольга Потолицына</span><span>Инженер ПГС</span></div>
+        <section className="section price" id="price" aria-labelledby="price-title">
+          <div className="container price-layout">
+            <div className="price-copy" data-reveal>
+              <h2 id="price-title">Цена известна до начала работы</h2>
+              <p>Оцениваю объём, количество разделов и срок. После этого фиксирую стоимость без скрытых доплат.</p>
+              <a className="button button--secondary" href="#contact">Получить оценку <ArrowRight size={19} weight="bold" /></a>
             </div>
-            <div className="evidence-copy" data-reveal>
-              <p className="eyebrow">Обо мне</p>
-              <h2 id="about-title">Я отвечаю за результат лично.</h2>
-              <p className="lead-paragraph">Ольга Потолицына, инженер-сметчик с 16-летним стажем. Специализация: коммерческая недвижимость, социальная инфраструктура и госзаказ.</p>
-              <div className="evidence-list">
-                <div><CheckCircle size={22} weight="fill" /><span>Работала с федеральными сетями: Магнит, Пятерочка, Чижик.</span></div>
-                <div><CheckCircle size={22} weight="fill" /><span>Участвовала в строительстве знаковых объектов, включая Академический театр драмы им. В. Савина и Республиканский лыжный комплекс им. Р. Сметаниной.</span></div>
-                <div><CheckCircle size={22} weight="fill" /><span>Документы выдерживают судебные экспертизы и проверки заказчиков.</span></div>
-              </div>
-              <a className="button button--outline" href={`mailto:${email}`}>Задать вопрос <ArrowRight size={17} /></a>
-            </div>
-          </div>
-        </section>
-
-        <section className="section section--process" id="process" aria-labelledby="process-title">
-          <div className="container process-layout">
-            <div className="process-intro" data-reveal>
-              <p className="eyebrow">Как работаю</p>
-              <h2 id="process-title">Чётко от задачи до документа.</h2>
-              <p>Первый шаг простой: пришлите готовую смету, ТЗ или коротко опишите ситуацию. Я скажу, что можно проверить и какой результат вы получите.</p>
-              <a className="inline-arrow" href="#contact">Обсудить задачу <ArrowRight size={17} /></a>
-            </div>
-            <div className="process-list" data-reveal>
-              {process.map(([title, text], index) => (
-                <div className="process-step" key={title}>
-                  <span className="process-number">{String(index + 1).padStart(2, "0")}</span>
-                  <div><h3>{title}</h3><p>{text}</p></div>
+            <div className="price-list" data-reveal>
+              {priceRows.map(([label, value]) => (
+                <div className="price-row" key={label}>
+                  <span>{label}</span>
+                  <strong>{value}</strong>
                 </div>
               ))}
+              <p>Экспресс-оценка сметы бесплатна.</p>
             </div>
           </div>
         </section>
 
-        <section className="section section--price" id="price" aria-labelledby="price-title">
-          <div className="container price-grid">
-            <div className="price-copy" data-reveal>
-              <p className="eyebrow">Стоимость</p>
-              <h2 id="price-title">Сначала ясность. Потом точная цена.</h2>
-              <p>Стоимость зависит от объёма документации, количества разделов и срока. После короткой оценки я называю цену и фиксирую её до начала работы.</p>
-              <div className="price-note"><LockKey size={18} /><span>Без скрытых доплат по ходу проекта</span></div>
-            </div>
-            <div className="price-table" data-reveal>
-              {priceRows.map(([label, price]) => <div className="price-row" key={label}><span>{label}</span><strong>{price}</strong></div>)}
-              <div className="price-table-foot">Точная цена после оценки объёма. Экспресс-оценка сметы бесплатна.</div>
-            </div>
-          </div>
-        </section>
-
-        <section className="section section--contact" id="contact" aria-labelledby="contact-title">
-          <div className="container contact-shell">
+        <section className="section contact" id="contact" aria-labelledby="contact-title">
+          <div className="container contact-grid">
             <div className="contact-copy" data-reveal>
-              <p className="eyebrow">Первый шаг</p>
-              <h2 id="contact-title">Пришлите смету. Я скажу, где её усилить.</h2>
-              <p>Проверю файл за 15 минут и подскажу, что важно поправить до подачи заказчику, на тендер или в суд.</p>
+              <h2 id="contact-title">Пришлите смету. Я скажу, что проверить в первую очередь.</h2>
+              <p>Отвечу по задаче, назову срок и стоимость. Можно сразу написать в Telegram или позвонить.</p>
               <div className="contact-links">
-                <a href={`tel:+${phoneDigits}`}><Phone size={18} weight="bold" /><span>{phoneDisplay}</span></a>
-                <a href={`https://t.me/${telegramHandle}`} target="_blank" rel="noreferrer"><PaperPlaneTilt size={18} weight="bold" /><span>@{telegramHandle}</span></a>
-                <a href={`mailto:${email}`}><FileText size={18} weight="bold" /><span>{email}</span></a>
+                <a href={`tel:+${phoneDigits}`}><Phone size={20} weight="bold" /><span>{phoneDisplay}</span></a>
+                <a href={`https://t.me/${telegramHandle}`} target="_blank" rel="noreferrer"><PaperPlaneTilt size={20} weight="bold" /><span>@{telegramHandle}</span></a>
+                <a href={`mailto:${email}`}><FileText size={20} weight="bold" /><span>{email}</span></a>
               </div>
             </div>
+
             <form className="contact-form" onSubmit={handleSubmit} data-reveal>
-              <div className="form-topline"><span>Экспресс-оценка</span><FileArrowUp size={20} /></div>
-              <label>Имя<input name="name" value={form.name} onChange={handleFormChange} placeholder="Как к вам обращаться" required /></label>
-              <label>Телефон<input name="phone" type="tel" value={form.phone} onChange={handleFormChange} placeholder="+7 900 000 00 00" required /></label>
-              <label>Что нужно проверить?<textarea name="message" value={form.message} onChange={handleFormChange} placeholder="Коротко опишите проект или прикрепите файл в Telegram" rows="4" required /></label>
-              <button className="button button--accent form-submit" type="submit">Отправить в Telegram <PaperPlaneTilt size={18} weight="bold" /></button>
-              <p className="form-hint">Нажимая кнопку, вы откроете Telegram с уже подготовленным сообщением.</p>
+              <div className="form-heading">
+                <h3>Экспресс-оценка</h3>
+                <FileArrowUp size={25} />
+              </div>
+              <label>
+                <span>Имя</span>
+                <input name="name" value={form.name} onChange={handleFormChange} placeholder="Как к вам обращаться" autoComplete="name" required />
+              </label>
+              <label>
+                <span>Телефон</span>
+                <input name="phone" type="tel" value={form.phone} onChange={handleFormChange} placeholder="+7 900 000 00 00" autoComplete="tel" required />
+              </label>
+              <label>
+                <span>Что нужно проверить?</span>
+                <textarea name="message" value={form.message} onChange={handleFormChange} placeholder="Коротко опишите проект или прикрепите файл в Telegram" rows="4" required />
+              </label>
+              <button className="button form-submit" type="submit">Отправить в Telegram <PaperPlaneTilt size={19} weight="bold" /></button>
+              <p className="form-hint">Telegram откроется с уже подготовленным сообщением.</p>
               {formState === "sent" && <p className="form-success" role="status">Сообщение подготовлено. Если Telegram не открылся, напишите напрямую: @{telegramHandle}</p>}
             </form>
           </div>
@@ -313,11 +366,17 @@ function App() {
       </main>
 
       <footer className="site-footer">
-        <div className="container footer-grid">
+        <div className="container footer-main">
           <Logo />
-          <p>Коммерческие и государственные строительные проекты. Работаю дистанционно по всей России.</p>
-          <div className="footer-meta"><a href={`tel:+${phoneDigits}`}>{phoneDisplay}</a><span><MapPin size={15} /> Краснодар</span></div>
-          <div className="footer-bottom"><span>© {new Date().getFullYear()} Ольга Потолицына</span><span>Инженер-сметчик</span></div>
+          <p>Сметное сопровождение коммерческих и государственных строительных проектов по всей России.</p>
+          <div className="footer-contact">
+            <a href={`tel:+${phoneDigits}`}>{phoneDisplay}</a>
+            <span><MapPin size={16} /> Краснодар</span>
+          </div>
+        </div>
+        <div className="container footer-bottom">
+          <span>© {new Date().getFullYear()} Ольга Потолицына</span>
+          <span>Инженер-сметчик</span>
         </div>
       </footer>
     </div>
