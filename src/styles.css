@@ -600,7 +600,7 @@ p {
 
 .projects-grid {
   display: grid;
-  min-height: 1040px;
+  min-height: 0;
   grid-template-columns: 1fr 1fr;
   gap: 8vw;
 }
@@ -614,15 +614,19 @@ p {
 }
 
 .project--detail {
-  align-self: end;
+  align-self: start;
   justify-self: end;
   width: min(85%, 520px);
 }
 
 .project img {
   width: 100%;
-  aspect-ratio: 4 / 3;
+  height: clamp(300px, 30vw, 440px);
   object-fit: cover;
+}
+
+.project--portrait img {
+  object-position: center 42%;
 }
 
 .project figcaption {
