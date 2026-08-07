@@ -600,7 +600,7 @@ p {
 
 .projects-grid {
   display: grid;
-  min-height: 1260px;
+  min-height: 1040px;
   grid-template-columns: 1fr 1fr;
   gap: 8vw;
 }
@@ -621,7 +621,7 @@ p {
 
 .project img {
   width: 100%;
-  aspect-ratio: 4 / 5;
+  aspect-ratio: 4 / 3;
   object-fit: cover;
 }
 
