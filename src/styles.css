@@ -23,14 +23,14 @@
 }
 
 :root {
-  --paper: #f6f6f3;
-  --white: #fbfbf9;
-  --ink: #121514;
-  --navy: #16233a;
-  --muted: #9ba2a8;
-  --text-muted: #60676b;
-  --line: #d9dcdd;
-  --soft: #e9ebeb;
+  --paper: #f2eee6;
+  --white: #fbfaf6;
+  --ink: #181917;
+  --navy: #33403f;
+  --muted: #a79f94;
+  --text-muted: #66645e;
+  --line: #d8d1c6;
+  --soft: #e7dfd3;
   color: var(--ink);
   background: var(--paper);
   font-family: "Manrope", Arial, sans-serif;
@@ -202,7 +202,7 @@ p {
 
 .site-header--solid {
   color: var(--ink);
-  background: rgba(246, 246, 243, 0.94);
+  background: rgba(242, 238, 230, 0.94);
   border-bottom: 1px solid var(--line);
   backdrop-filter: blur(16px);
 }
@@ -445,7 +445,7 @@ p {
 
 .manifesto h2 {
   max-width: 1320px;
-  color: #adb3b7;
+  color: #a6a096;
   font-size: clamp(54px, 6.45vw, 98px);
   line-height: 1.08;
   letter-spacing: -0.048em;
@@ -794,7 +794,7 @@ p {
 }
 
 .price-list {
-  border-top: 1px solid #c9cdce;
+  border-top: 1px solid #c9c1b5;
 }
 
 .price-row {
@@ -803,7 +803,7 @@ p {
   align-items: center;
   justify-content: space-between;
   gap: 30px;
-  border-bottom: 1px solid #c9cdce;
+  border-bottom: 1px solid #c9c1b5;
   font-size: 13px;
 }
 
@@ -906,7 +906,7 @@ p {
 
 .site-footer {
   padding: 28px 0;
-  color: #c8cccf;
+  color: #ccc4b9;
   background: var(--ink);
 }
 
