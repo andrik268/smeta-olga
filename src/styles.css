@@ -362,6 +362,10 @@ p {
   opacity: 0.68;
 }
 
+.max-social-icon {
+  object-fit: contain;
+}
+
 .hero {
   position: relative;
   min-height: 100svh;
