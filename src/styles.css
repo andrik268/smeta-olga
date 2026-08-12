@@ -358,7 +358,8 @@ p {
   width: 20px;
   height: 20px;
   flex: 0 0 auto;
-  opacity: 0.62;
+  color: currentColor;
+  opacity: 0.68;
 }
 
 .hero {
