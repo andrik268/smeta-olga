@@ -2,8 +2,8 @@ import { useEffect, useRef, useState } from "react";
 import {
   ArrowRight,
   ArrowUpRight,
-  Buildings,
   Calculator,
+  ChatCircleDots,
   Check,
   EnvelopeSimple,
   FileText,
@@ -17,8 +17,9 @@ import {
 
 const phoneDisplay = "+7 (989) 268-29-32";
 const phoneDigits = "79892682932";
-const email = "olyshka55@mail.ru";
+const email = "smeta_skd@mail.ru";
 const telegramHandle = "Olga_Potolitsyna";
+const maxUrl = "https://max.ru/u/f9LHodD0cOI_G2sVZ8gKxhe-DnUjMUCJzj084chXgs36UZwrQC-z7J9T99o";
 
 const navItems = [
   ["Услуги", "#services"],
@@ -34,7 +35,7 @@ const services = [
     number: "01",
     icon: Calculator,
     title: "Смета под ключ",
-    text: "Локальные сметы, дефектные ведомости и коммерческие предложения в Гранд-Смете и Турбо-Сметчике.",
+    text: "Локальные сметы, дефектные ведомости и коммерческие предложения в формах ритейла: Пятёрочка, Чижик, Магнит и другие. Работаю в Гранд-Смете.",
     note: "от 40 000 ₽",
   },
   {
@@ -51,13 +52,6 @@ const services = [
     text: "Сопровождение договоров, исполнительных документов и работы подрядчиков на всех этапах проекта.",
     note: "по задаче",
   },
-  {
-    number: "04",
-    icon: Buildings,
-    title: "Судебная экспертиза",
-    text: "Обоснованные расчёты и документы для арбитража, экспертизы и защиты позиции по стоимости работ.",
-    note: "по запросу",
-  },
 ];
 
 const stats = [
@@ -70,7 +64,7 @@ const stats = [
 const audiences = [
   ["Девелоперы и управляющие компании", "Торговые центры, бизнес-центры и склады. Контроль бюджета от расчёта до приёмки."],
   ["Подрядчики и субподрядчики", "Тендерные расчёты и документы с учётом требований конкретного заказчика."],
-  ["Государственные заказчики", "Школы, больницы и социальные объекты. Работа по требованиям 44-ФЗ."],
+  ["Государственные заказчики", "Школы, больницы и социальные объекты. Работа по требованиям заказчика."],
 ];
 
 const process = [
@@ -83,7 +77,6 @@ const process = [
 const priceRows = [
   ["Проверка готовой сметы", "от 10 000 ₽"],
   ["Смета под ключ", "от 40 000 ₽"],
-  ["Судебная экспертиза", "по запросу"],
 ];
 
 function App() {
@@ -163,7 +156,7 @@ function App() {
       <header className={`site-header${headerSolid || menuOpen ? " site-header--solid" : ""}`}>
         <div className="header-grid">
           <a className="header-descriptor" href="#top" aria-label="Ольга Потолицына, на главную">
-            <span className="monogram" aria-hidden="true"><span>О</span><span>П</span></span>
+            <img className="brand-logo" src="/images/olga-logo.png" alt="" width="68" height="68" />
             <span>Сметное сопровождение<br />строительных проектов</span>
           </a>
           <a className="header-name" href="#top">Ольга Потолицына</a>
@@ -192,6 +185,7 @@ function App() {
           <div className="menu-contacts">
             <p>Обсудить задачу</p>
             <a href={`tel:+${phoneDigits}`}>{phoneDisplay}</a>
+            <a href={maxUrl} target="_blank" rel="noreferrer">MAX</a>
             <a href={`https://t.me/${telegramHandle}`} target="_blank" rel="noreferrer">Telegram</a>
           </div>
         </div>
@@ -320,8 +314,8 @@ function App() {
               <p className="about-intro">Инженер-сметчик с 16-летним опытом в строительстве, коммерческой недвижимости и государственных проектах.</p>
               <p>Не просто считаю стоимость. Проверяю логику проекта, вижу риски в документах и объясняю цифры так, чтобы их можно было уверенно защищать перед заказчиком, экспертизой или судом.</p>
               <ul>
-                <li><Check size={18} /> работа по 44-ФЗ и требованиям заказчика</li>
-                <li><Check size={18} /> Гранд-Смета и Турбо-Сметчик</li>
+                <li><Check size={18} /> работа по требованиям заказчика</li>
+                <li><Check size={18} /> Гранд-Смета</li>
                 <li><Check size={18} /> сметы, КС-2, КС-3, договоры и ЭДО</li>
               </ul>
               <a className="text-link" href="#contact">Обсудить проект <ArrowUpRight size={18} /></a>
@@ -372,6 +366,7 @@ function App() {
               <div className="contact-links">
                 <a href={`tel:+${phoneDigits}`}><Phone size={20} />{phoneDisplay}</a>
                 <a href={`mailto:${email}`}><EnvelopeSimple size={20} />{email}</a>
+                <a href={maxUrl} target="_blank" rel="noreferrer"><ChatCircleDots size={20} />MAX</a>
                 <a href={`https://t.me/${telegramHandle}`} target="_blank" rel="noreferrer"><PaperPlaneTilt size={20} />@{telegramHandle}</a>
                 <span><MapPin size={20} />Россия / работаю удалённо</span>
               </div>
@@ -382,8 +377,8 @@ function App() {
                 <input name="name" value={form.name} onChange={handleFormChange} placeholder="Как к вам обращаться" required />
               </label>
               <label>
-                <span>Телефон или Telegram</span>
-                <input name="phone" value={form.phone} onChange={handleFormChange} placeholder="+7 999 000-00-00" required />
+                <span>Телефон или мессенджер</span>
+                <input name="phone" value={form.phone} onChange={handleFormChange} placeholder="+7 999 000-00-00 / @username" required />
               </label>
               <label>
                 <span>Задача</span>
