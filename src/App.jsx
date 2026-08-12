@@ -185,7 +185,7 @@ function App() {
             <p>Обсудить задачу</p>
             <a href={`tel:+${phoneDigits}`}>{phoneDisplay}</a>
             <a className="menu-social-link" href={maxUrl} target="_blank" rel="noreferrer">
-              <img className="social-icon max-social-icon" src="/icons/max-official.svg" alt="" width="20" height="20" />
+              <span className="social-icon max-social-icon" aria-hidden="true" />
               <span>MAX</span>
             </a>
             <a className="menu-social-link" href={`https://t.me/${telegramHandle}`} target="_blank" rel="noreferrer">
@@ -369,11 +369,11 @@ function App() {
               <h2 id="contact-title">Расскажите, какую смету нужно посчитать или проверить</h2>
               <p>Отвечу, какие документы понадобятся, сколько займёт работа и каким будет результат.</p>
               <div className="contact-links">
-                <a href={`tel:+${phoneDigits}`}><Phone size={20} />{phoneDisplay}</a>
-                <a href={`mailto:${email}`}><EnvelopeSimple size={20} />{email}</a>
-                <a href={maxUrl} target="_blank" rel="noreferrer"><img className="social-icon max-social-icon" src="/icons/max-official.svg" alt="" width="20" height="20" />MAX</a>
+                <a href={`tel:+${phoneDigits}`}><Phone size={20} weight="regular" />{phoneDisplay}</a>
+                <a href={`mailto:${email}`}><EnvelopeSimple size={20} weight="regular" />{email}</a>
+                <a href={maxUrl} target="_blank" rel="noreferrer"><span className="social-icon max-social-icon" aria-hidden="true" />MAX</a>
                 <a href={`https://t.me/${telegramHandle}`} target="_blank" rel="noreferrer"><TelegramLogo className="social-icon" size={20} weight="regular" aria-hidden="true" />@{telegramHandle}</a>
-                <span><MapPin size={20} />Россия / работаю удалённо</span>
+                <span><MapPin size={20} weight="regular" />Россия / работаю удалённо</span>
               </div>
             </div>
             <form className="contact-form" onSubmit={handleSubmit} data-reveal>

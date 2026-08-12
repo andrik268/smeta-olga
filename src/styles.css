@@ -354,16 +354,16 @@ p {
 }
 
 .social-icon {
-  display: block;
+  display: inline-block;
   width: 20px;
   height: 20px;
   flex: 0 0 auto;
   color: currentColor;
-  opacity: 0.68;
 }
 
 .max-social-icon {
-  object-fit: contain;
+  background: transparent url("/icons/max-official.svg") center / 18px 18px no-repeat;
+  opacity: 0.58;
 }
 
 .hero {
@@ -878,6 +878,13 @@ p {
   gap: 12px;
   color: var(--text-muted);
   font-size: 13px;
+}
+
+.contact-links .max-social-icon {
+  display: block;
+  width: 20px;
+  height: 20px;
+  flex: 0 0 auto;
 }
 
 .contact-form {
