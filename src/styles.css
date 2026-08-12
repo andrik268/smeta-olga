@@ -347,6 +347,20 @@ p {
   font-size: 14px;
 }
 
+.menu-social-link {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.social-icon {
+  display: block;
+  width: 20px;
+  height: 20px;
+  flex: 0 0 auto;
+  opacity: 0.62;
+}
+
 .hero {
   position: relative;
   min-height: 100svh;

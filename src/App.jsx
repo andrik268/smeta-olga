@@ -3,13 +3,11 @@ import {
   ArrowRight,
   ArrowUpRight,
   Calculator,
-  ChatCircleDots,
   Check,
   EnvelopeSimple,
   FileText,
   List,
   MapPin,
-  PaperPlaneTilt,
   Phone,
   ShieldCheck,
   X,
@@ -185,8 +183,14 @@ function App() {
           <div className="menu-contacts">
             <p>Обсудить задачу</p>
             <a href={`tel:+${phoneDigits}`}>{phoneDisplay}</a>
-            <a href={maxUrl} target="_blank" rel="noreferrer">MAX</a>
-            <a href={`https://t.me/${telegramHandle}`} target="_blank" rel="noreferrer">Telegram</a>
+            <a className="menu-social-link" href={maxUrl} target="_blank" rel="noreferrer">
+              <img className="social-icon" src="/icons/max.svg" alt="" width="20" height="20" />
+              <span>MAX</span>
+            </a>
+            <a className="menu-social-link" href={`https://t.me/${telegramHandle}`} target="_blank" rel="noreferrer">
+              <img className="social-icon" src="/icons/telegram.svg" alt="" width="20" height="20" />
+              <span>Telegram</span>
+            </a>
           </div>
         </div>
       </aside>
@@ -366,8 +370,8 @@ function App() {
               <div className="contact-links">
                 <a href={`tel:+${phoneDigits}`}><Phone size={20} />{phoneDisplay}</a>
                 <a href={`mailto:${email}`}><EnvelopeSimple size={20} />{email}</a>
-                <a href={maxUrl} target="_blank" rel="noreferrer"><ChatCircleDots size={20} />MAX</a>
-                <a href={`https://t.me/${telegramHandle}`} target="_blank" rel="noreferrer"><PaperPlaneTilt size={20} />@{telegramHandle}</a>
+                <a href={maxUrl} target="_blank" rel="noreferrer"><img className="social-icon" src="/icons/max.svg" alt="" width="20" height="20" />MAX</a>
+                <a href={`https://t.me/${telegramHandle}`} target="_blank" rel="noreferrer"><img className="social-icon" src="/icons/telegram.svg" alt="" width="20" height="20" />@{telegramHandle}</a>
                 <span><MapPin size={20} />Россия / работаю удалённо</span>
               </div>
             </div>
