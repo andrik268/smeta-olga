@@ -8,6 +8,7 @@ import {
   FileText,
   List,
   MapPin,
+  PaperPlaneTilt,
   Phone,
   ShieldCheck,
   X,
@@ -17,7 +18,6 @@ const phoneDisplay = "+7 (989) 268-29-32";
 const phoneDigits = "79892682932";
 const email = "smeta_skd@mail.ru";
 const telegramHandle = "Olga_Potolitsyna";
-const telegramIcon = "/icons/telegram-official.svg";
 const maxUrl = "https://max.ru/u/f9LHodD0cOI_G2sVZ8gKxhe-DnUjMUCJzj084chXgs36UZwrQC-z7J9T99o";
 
 const navItems = [
@@ -192,7 +192,7 @@ function App() {
               <span>MAX</span>
             </a>
             <a className="menu-social-link" href={`https://t.me/${telegramHandle}`} target="_blank" rel="noreferrer">
-              <img className="social-icon" src={telegramIcon} alt="" width="20" height="20" aria-hidden="true" />
+              <PaperPlaneTilt className="social-icon" size={20} weight="fill" aria-hidden="true" />
               <span>Telegram</span>
             </a>
           </div>
@@ -375,7 +375,7 @@ function App() {
                 <a href={`tel:+${phoneDigits}`}><Phone size={20} weight="fill" />{phoneDisplay}</a>
                 <a href={`mailto:${email}`}><EnvelopeSimple size={20} weight="fill" />{email}</a>
                 <a href={maxUrl} target="_blank" rel="noreferrer"><span className="social-icon max-social-icon" aria-hidden="true" />MAX</a>
-                <a href={`https://t.me/${telegramHandle}`} target="_blank" rel="noreferrer"><img className="social-icon" src={telegramIcon} alt="" width="20" height="20" aria-hidden="true" />@{telegramHandle}</a>
+                <a href={`https://t.me/${telegramHandle}`} target="_blank" rel="noreferrer"><PaperPlaneTilt className="social-icon" size={20} weight="fill" aria-hidden="true" />@{telegramHandle}</a>
                 <span><MapPin size={20} weight="fill" />Россия / работаю удалённо</span>
               </div>
             </div>
@@ -394,7 +394,7 @@ function App() {
               </label>
               <div className="form-actions">
                 <button className="button button--dark form-submit" type="submit" name="channel" value="telegram">
-                  <img className="button-social-icon button-telegram-icon" src={telegramIcon} alt="" width="18" height="18" aria-hidden="true" />
+                  <PaperPlaneTilt className="button-social-icon" size={18} weight="fill" aria-hidden="true" />
                   {formState === "telegram" ? "Telegram открыт" : "Отправить в Telegram"}
                   <ArrowUpRight size={18} />
                 </button>

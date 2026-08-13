@@ -192,15 +192,7 @@ p {
   filter: brightness(0) invert(1);
 }
 
-.button-telegram-icon {
-  filter: brightness(0) invert(1);
-}
-
 .button--dark:hover .button-max-icon {
-  filter: none;
-}
-
-.button--dark:hover .button-telegram-icon {
   filter: none;
 }
 
