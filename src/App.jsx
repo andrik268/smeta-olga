@@ -372,11 +372,11 @@ function App() {
               <h2 id="contact-title">Расскажите, какую смету нужно посчитать или проверить</h2>
               <p>Отвечу, какие документы понадобятся, сколько займёт работа и каким будет результат.</p>
               <div className="contact-links">
-                <a href={`tel:+${phoneDigits}`}><Phone size={20} weight="regular" />{phoneDisplay}</a>
-                <a href={`mailto:${email}`}><EnvelopeSimple size={20} weight="regular" />{email}</a>
+                <a href={`tel:+${phoneDigits}`}><Phone size={20} weight="fill" />{phoneDisplay}</a>
+                <a href={`mailto:${email}`}><EnvelopeSimple size={20} weight="fill" />{email}</a>
                 <a href={maxUrl} target="_blank" rel="noreferrer"><span className="social-icon max-social-icon" aria-hidden="true" />MAX</a>
                 <a href={`https://t.me/${telegramHandle}`} target="_blank" rel="noreferrer"><TelegramLogo className="social-icon" size={20} weight="fill" aria-hidden="true" />@{telegramHandle}</a>
-                <span><MapPin size={20} weight="regular" />Россия / работаю удалённо</span>
+                <span><MapPin size={20} weight="fill" />Россия / работаю удалённо</span>
               </div>
             </div>
             <form className="contact-form" onSubmit={handleSubmit} data-reveal>
