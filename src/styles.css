@@ -181,6 +181,21 @@ p {
   background: transparent;
 }
 
+.button-social-icon {
+  display: block;
+  width: 18px;
+  height: 18px;
+  flex: 0 0 auto;
+}
+
+.button-max-icon {
+  filter: brightness(0) invert(1);
+}
+
+.button--dark:hover .button-max-icon {
+  filter: none;
+}
+
 .text-link {
   display: inline-flex;
   align-items: center;
@@ -928,9 +943,18 @@ p {
   color: var(--muted);
 }
 
-.form-submit {
-  width: fit-content;
+.form-actions {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
   margin-top: 6px;
+}
+
+.form-submit {
+  width: 100%;
+  min-width: 0;
+  padding: 0 16px;
+  gap: 9px;
 }
 
 .contact-form small {
@@ -1185,6 +1209,10 @@ p {
   .about-copy,
   .contact-form {
     padding-top: 0;
+  }
+
+  .form-actions {
+    grid-template-columns: 1fr;
   }
 
   .process-row {

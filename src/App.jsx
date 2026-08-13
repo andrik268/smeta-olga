@@ -133,6 +133,7 @@ function App() {
 
   const handleSubmit = (event) => {
     event.preventDefault();
+    const channel = event.nativeEvent.submitter?.value || "telegram";
     const message = [
       "Здравствуйте, Ольга! Хочу получить экспресс-оценку сметы.",
       form.name && `Имя: ${form.name}`,
@@ -143,11 +144,13 @@ function App() {
       .join("\n");
 
     window.open(
-      `https://t.me/${telegramHandle}?text=${encodeURIComponent(message)}`,
+      channel === "max"
+        ? maxUrl
+        : `https://t.me/${telegramHandle}?text=${encodeURIComponent(message)}`,
       "_blank",
       "noopener,noreferrer",
     );
-    setFormState("sent");
+    setFormState(channel);
   };
 
   return (
@@ -189,7 +192,7 @@ function App() {
               <span>MAX</span>
             </a>
             <a className="menu-social-link" href={`https://t.me/${telegramHandle}`} target="_blank" rel="noreferrer">
-              <TelegramLogo className="social-icon" size={20} weight="regular" aria-hidden="true" />
+              <TelegramLogo className="social-icon" size={20} weight="fill" aria-hidden="true" />
               <span>Telegram</span>
             </a>
           </div>
@@ -372,7 +375,7 @@ function App() {
                 <a href={`tel:+${phoneDigits}`}><Phone size={20} weight="regular" />{phoneDisplay}</a>
                 <a href={`mailto:${email}`}><EnvelopeSimple size={20} weight="regular" />{email}</a>
                 <a href={maxUrl} target="_blank" rel="noreferrer"><span className="social-icon max-social-icon" aria-hidden="true" />MAX</a>
-                <a href={`https://t.me/${telegramHandle}`} target="_blank" rel="noreferrer"><TelegramLogo className="social-icon" size={20} weight="regular" aria-hidden="true" />@{telegramHandle}</a>
+                <a href={`https://t.me/${telegramHandle}`} target="_blank" rel="noreferrer"><TelegramLogo className="social-icon" size={20} weight="fill" aria-hidden="true" />@{telegramHandle}</a>
                 <span><MapPin size={20} weight="regular" />Россия / работаю удалённо</span>
               </div>
             </div>
@@ -389,10 +392,18 @@ function App() {
                 <span>Задача</span>
                 <textarea name="message" value={form.message} onChange={handleFormChange} placeholder="Что нужно посчитать или проверить" rows="4" />
               </label>
-              <button className="button button--dark form-submit" type="submit">
-                {formState === "sent" ? "Telegram открыт" : "Отправить в Telegram"}
-                <ArrowUpRight size={18} />
-              </button>
+              <div className="form-actions">
+                <button className="button button--dark form-submit" type="submit" name="channel" value="telegram">
+                  <TelegramLogo className="button-social-icon" size={18} weight="fill" aria-hidden="true" />
+                  {formState === "telegram" ? "Telegram открыт" : "Отправить в Telegram"}
+                  <ArrowUpRight size={18} />
+                </button>
+                <button className="button button--dark form-submit" type="submit" name="channel" value="max">
+                  <img className="button-social-icon button-max-icon" src="/icons/max-official.svg" alt="" width="18" height="18" />
+                  {formState === "max" ? "MAX открыт" : "Отправить в MAX"}
+                  <ArrowUpRight size={18} />
+                </button>
+              </div>
               <small>Нажимая кнопку, вы соглашаетесь на обработку данных.</small>
             </form>
           </div>
